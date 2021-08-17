@@ -1,4 +1,4 @@
-package br.com.yunikonshine.refugiobrasil.model.response;
+package br.com.yunikonshine.refugiobrasil.model.response.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

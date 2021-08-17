@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Type;
-import java.util.Objects;
 
 @Slf4j
 public class FeignLogHandler implements Decoder {

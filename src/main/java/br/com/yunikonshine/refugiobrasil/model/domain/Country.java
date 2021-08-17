@@ -14,22 +14,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "state")
+@Table(name = "country")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "active = true")
-public class State {
+public class Country {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "initials")
-    private String initials;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "name", length = 100)
+	private String name;
 
 }

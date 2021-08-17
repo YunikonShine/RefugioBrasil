@@ -1,6 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.client;
 
-import br.com.yunikonshine.refugiobrasil.model.response.ViaCepResponse;
+import br.com.yunikonshine.refugiobrasil.model.response.client.ViaCepResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
