@@ -13,6 +13,8 @@ public class StateResponse {
 
     private Long id;
 
+    private String name;
+
     private String initials;
 
 }
