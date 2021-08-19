@@ -1,39 +1,30 @@
 package br.com.yunikonshine.refugiobrasil.model.domain;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Where;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "city")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "active = true")
+@DynamoDBTable(tableName = City.TABLE_NAME)
 public class City {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public static final String TABLE_NAME = "city";
+
+	@DynamoDBHashKey
 	private Long id;
 
-	@Column(name = "name")
 	private String name;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "state_id")
+	@DynamoDBAttribute(attributeName = "state_id")
+	private Long stateId;
+
 	private State state;
 
 }

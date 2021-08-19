@@ -11,7 +11,12 @@ spring:
     url: jdbc:mysql://localhost:3306/ysrefugiobrasil
     username: root
     password: root
+  profiles:
+    active: localstack
 
 feign:
   url:
     viacep: https://viacep.com.br/ws
+
+server:
+  port: 8081

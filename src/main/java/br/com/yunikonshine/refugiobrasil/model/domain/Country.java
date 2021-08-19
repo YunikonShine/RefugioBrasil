@@ -1,32 +1,24 @@
 package br.com.yunikonshine.refugiobrasil.model.domain;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "country")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "active = true")
+@DynamoDBTable(tableName = Country.TABLE_NAME)
 public class Country {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public static final String TABLE_NAME = "country";
+
+	@DynamoDBHashKey
 	private Long id;
-	
-	@Column(name = "name", length = 100)
+
 	private String name;
 
 }

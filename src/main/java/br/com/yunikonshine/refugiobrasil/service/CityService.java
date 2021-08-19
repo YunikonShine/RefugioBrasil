@@ -13,7 +13,7 @@ public class CityService {
     private final CityRepository cityRepository;
 
     public City findByName(String name) throws CepNotFoundException {
-        return cityRepository.findByName(name).orElseThrow(() -> new CepNotFoundException());
+        return cityRepository.findByName(name);
     }
 
 }
