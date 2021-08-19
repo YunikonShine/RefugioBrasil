@@ -1,6 +1,7 @@
 package br.com.yunikonshine.refugiobrasil.controller.handler;
 
 import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
+import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.FeignServerInternalServerError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +57,13 @@ public class HandlerController {
         log.error("CEP not found ", e);
         ExceptionResponse err = new ExceptionResponse(HttpStatus.NOT_FOUND, "CEP not found", REFUGIO_BRASIL);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
+
+    @ExceptionHandler(DocumentAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponse> handleDocumentAlreadyExistsException(DocumentAlreadyExistsException e) {
+        log.error("Document already exists ", e);
+        ExceptionResponse err = new ExceptionResponse(HttpStatus.FOUND, "Document already exists", REFUGIO_BRASIL);
+        return ResponseEntity.status(HttpStatus.FOUND).body(err);
     }
 
 }
