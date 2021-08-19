@@ -20,3 +20,6 @@ feign:
 
 server:
   port: 8081
+
+api:
+  version: 1.0.0
