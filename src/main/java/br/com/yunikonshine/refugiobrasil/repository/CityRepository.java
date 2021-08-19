@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -28,7 +30,6 @@ public class CityRepository {
         expressionAttributeValues.put(":n", new AttributeValue().withS(name));
 
         Map<String, String> expressionAttributeKeys = new HashMap<>();
-
         expressionAttributeKeys.put("#n", "name");
 
         ScanRequest scanRequest = new ScanRequest()
@@ -49,4 +50,23 @@ public class CityRepository {
         return city;
     }
 
+    public List<City> findByState(String stateId) {
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":state", new AttributeValue().withN(stateId));
+
+        Map<String, String> expressionAttributeKeys = new HashMap<>();
+        expressionAttributeKeys.put("#state", "state_id");
+
+        ScanRequest scanRequest = new ScanRequest()
+                .withTableName(City.TABLE_NAME)
+                .withFilterExpression("#state = :state")
+                .withExpressionAttributeValues(expressionAttributeValues)
+                .withExpressionAttributeNames(expressionAttributeKeys);
+
+        ScanResult result = dynamoDB.scan(scanRequest);
+
+        return result.getItems().stream()
+                .map(i -> dynamoDBMapper.marshallIntoObject(City.class, i))
+                .collect(Collectors.toList());
+    }
 }

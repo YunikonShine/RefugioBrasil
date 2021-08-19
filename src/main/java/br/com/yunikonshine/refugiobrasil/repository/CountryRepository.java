@@ -17,18 +17,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CountryRepository  {
 
-    private final AmazonDynamoDB dynamo;
+    private final AmazonDynamoDB dynamoDB;
 
     private final DynamoDBMapper dynamoDBMapper;
 
     public List<Country> findAll() {
-        ScanResult scan = dynamo.scan(new ScanRequest().withTableName(Country.TABLE_NAME));
+        ScanResult scan = dynamoDB.scan(new ScanRequest().withTableName(Country.TABLE_NAME));
         List<Map<String, AttributeValue>> attributeValues = scan.getItems();
 
         return attributeValues.stream()
                 .map(i -> dynamoDBMapper.marshallIntoObject(Country.class, i))
                 .collect(Collectors.toList());
-
     }
 
 }

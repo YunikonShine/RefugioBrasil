@@ -9,16 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CepResponse {
+public class CityStateResponse extends CityResponse {
 
-    private String cep;
-
-    private String street;
-
-    private String complement;
-
-    private String district;
-
-    private CityStateResponse city;
+    private StateResponse state;
 
 }

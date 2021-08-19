@@ -15,6 +15,4 @@ public class CityResponse {
 
     private String name;
 
-    private StateResponse state;
-
 }

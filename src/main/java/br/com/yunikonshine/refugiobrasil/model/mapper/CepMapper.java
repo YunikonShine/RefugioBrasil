@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {CityMapper.class})
 public interface CepMapper {
 
-    @Mapping(source = "city", target = "city", qualifiedByName = "cityMapper.toResponse")
+    @Mapping(source = "city", target = "city", qualifiedByName = "cityMapper.toCityStateResponse")
     CepResponse toResponse(ViaCepResponse viaCepResponse, City city);
 
 }
