@@ -2,6 +2,7 @@ package br.com.yunikonshine.refugiobrasil.controller.handler;
 
 import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
+import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.FeignServerInternalServerError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,8 +63,15 @@ public class HandlerController {
     @ExceptionHandler(DocumentAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleDocumentAlreadyExistsException(DocumentAlreadyExistsException e) {
         log.error("Document already exists ", e);
-        ExceptionResponse err = new ExceptionResponse(HttpStatus.FOUND, "Document already exists", REFUGIO_BRASIL);
-        return ResponseEntity.status(HttpStatus.FOUND).body(err);
+        ExceptionResponse err = new ExceptionResponse(HttpStatus.BAD_REQUEST, "Document already exists", REFUGIO_BRASIL);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
+    @ExceptionHandler(DocumentNotValidException.class)
+    public ResponseEntity<ExceptionResponse> handleDocumentNotValidException(DocumentNotValidException e) {
+        log.error(e.getMessage(), e);
+        ExceptionResponse err = new ExceptionResponse(HttpStatus.BAD_REQUEST, e.getMessage(), REFUGIO_BRASIL);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
 }

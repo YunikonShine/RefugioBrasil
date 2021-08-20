@@ -1,4 +1,4 @@
-package br.com.yunikonshine.refugiobrasil.model.request.validator;
+package br.com.yunikonshine.refugiobrasil.model.request.anotation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

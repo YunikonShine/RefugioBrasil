@@ -2,25 +2,29 @@ package br.com.yunikonshine.refugiobrasil.controller;
 
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
-import br.com.yunikonshine.refugiobrasil.model.request.DocumentRequest;
-import br.com.yunikonshine.refugiobrasil.service.DocumentService;
+import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
+import br.com.yunikonshine.refugiobrasil.service.RefugeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/document")
-@RequiredArgsConstructor
-public class DocumentController {
+import javax.validation.Valid;
 
-    private final DocumentService documentService;
+@Validated
+@RestController
+@RequestMapping("/refugee")
+@RequiredArgsConstructor
+public class RefugeeController {
+
+    private final RefugeeService refugeeService;
 
     @PostMapping
-    public ResponseEntity validDocument(@RequestBody DocumentRequest documentRequest) throws DocumentAlreadyExistsException, DocumentNotValidException {
-        documentService.validDocument(documentRequest);
+    public ResponseEntity saveRefugee(@RequestBody @Valid RefugeeRequest refugeeRequest) throws DocumentAlreadyExistsException, DocumentNotValidException {
+        refugeeService.saveRefugee(refugeeRequest);
         return ResponseEntity.ok().build();
     }
 

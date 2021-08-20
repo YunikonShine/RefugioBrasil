@@ -1,6 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.model.request;
 
-import br.com.yunikonshine.refugiobrasil.model.request.validator.ValidDate;
+import br.com.yunikonshine.refugiobrasil.model.request.anotation.ValidDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
