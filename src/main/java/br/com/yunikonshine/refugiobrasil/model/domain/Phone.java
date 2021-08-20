@@ -1,7 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.model.domain;
 
-
-import br.com.yunikonshine.refugiobrasil.model.enumerable.DocumentType;
+import br.com.yunikonshine.refugiobrasil.model.enumerable.PhoneType;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
@@ -15,10 +14,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamoDBTable(tableName = Document.TABLE_NAME)
-public class Document {
+@DynamoDBTable(tableName = Phone.TABLE_NAME)
+public class Phone {
 
-	public static final String TABLE_NAME = "documents";
+	public static final String TABLE_NAME = "phones";
 
 	@DynamoDBHashKey
 	private String id;
@@ -26,9 +25,11 @@ public class Document {
 	@DynamoDBAttribute(attributeName = "refugee_id")
 	private String refugeeId;
 
-	private String number;
-
 	@DynamoDBTypeConvertedEnum
-	private DocumentType type;
+	private PhoneType type;
+
+	private String idd;
+
+	private String number;
 
 }

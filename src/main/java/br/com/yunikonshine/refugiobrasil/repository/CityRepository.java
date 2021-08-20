@@ -69,4 +69,5 @@ public class CityRepository {
                 .map(i -> dynamoDBMapper.marshallIntoObject(City.class, i))
                 .collect(Collectors.toList());
     }
+
 }

@@ -27,4 +27,5 @@ public class CityService {
         return cityRepository.findByState(stateId).stream()
                 .map(cityMapper::toResponse).collect(Collectors.toList());
     }
+
 }

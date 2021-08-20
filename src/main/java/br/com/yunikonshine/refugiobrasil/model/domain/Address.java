@@ -1,11 +1,10 @@
 package br.com.yunikonshine.refugiobrasil.model.domain;
 
-
-import br.com.yunikonshine.refugiobrasil.model.enumerable.DocumentType;
+import br.com.yunikonshine.refugiobrasil.model.enumerable.HomeType;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConvertedEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,20 +14,30 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamoDBTable(tableName = Document.TABLE_NAME)
-public class Document {
+@DynamoDBTable(tableName = Address.TABLE_NAME)
+public class Address {
 
-	public static final String TABLE_NAME = "documents";
+	public static final String TABLE_NAME = "addresses";
 
 	@DynamoDBHashKey
-	private String id;
+	private Long id;
 
 	@DynamoDBAttribute(attributeName = "refugee_id")
 	private String refugeeId;
 
-	private String number;
+	private String street;
 
-	@DynamoDBTypeConvertedEnum
-	private DocumentType type;
+	private Integer number;
+
+	private String complement;
+
+	private String cep;
+
+	private Integer cityId;
+
+	@DynamoDBIgnore
+	private City city;
+
+	private HomeType homeType;
 
 }
