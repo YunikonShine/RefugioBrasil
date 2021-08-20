@@ -1,5 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.config;
 
+import br.com.yunikonshine.refugiobrasil.config.properties.DefaultProperties;
 import br.com.yunikonshine.refugiobrasil.config.properties.LocalStackProperties;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -20,6 +21,8 @@ public class AmazonConfiguration {
 
     private final LocalStackProperties localStackProperties;
 
+    private final DefaultProperties defaultProperties;
+
     @Bean
     public ClientConfiguration clientConfiguration() {
         return new ClientConfiguration();
@@ -28,7 +31,14 @@ public class AmazonConfiguration {
     @Bean
     @Profile("!localstack")
     public AmazonDynamoDB amazonDynamoDB(ClientConfiguration clientConfiguration) {
-        return AmazonDynamoDBAsyncClientBuilder.standard().withClientConfiguration(clientConfiguration).build();
+        return AmazonDynamoDBAsyncClientBuilder.standard()
+                .withClientConfiguration(clientConfiguration)
+                .withCredentials(
+                        new AWSStaticCredentialsProvider(
+                                new BasicAWSCredentials(
+                                        defaultProperties.getAccessKey(),
+                                        defaultProperties.getSecretKey())))
+                .build();
     }
 
     @Bean
