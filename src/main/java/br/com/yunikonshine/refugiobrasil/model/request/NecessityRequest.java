@@ -1,6 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.model.request;
 
-import br.com.yunikonshine.refugiobrasil.model.enumerable.DocumentType;
+import br.com.yunikonshine.refugiobrasil.model.enumerable.Situation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +13,21 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocumentRequest {
+public class NecessityRequest {
 
     @NotBlank
-    private String number;
+    private String description;
 
     @NotNull
-    private DocumentType type;
+    private Boolean food;
+
+    @NotNull
+    private Boolean home;
+
+    @NotNull
+    private Boolean medicine;
+
+    @NotNull
+    private Situation situation;
 
 }

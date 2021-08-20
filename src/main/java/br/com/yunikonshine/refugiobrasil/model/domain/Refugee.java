@@ -48,7 +48,7 @@ public class Refugee {
 	@DynamoDBTypeConvertedEnum
 	private Gender gender;
 
-	private Boolean cpp;
+	private Boolean institutionCourse;
 
 	@DynamoDBIgnore
 	private List<Document> documents;

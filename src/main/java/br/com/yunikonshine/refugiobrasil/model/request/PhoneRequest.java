@@ -1,6 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.model.request;
 
-import br.com.yunikonshine.refugiobrasil.model.enumerable.DocumentType;
+import br.com.yunikonshine.refugiobrasil.model.enumerable.PhoneType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +13,15 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocumentRequest {
+public class PhoneRequest {
+
+    @NotNull
+    private PhoneType type;
+
+    @NotBlank
+    private String idd;
 
     @NotBlank
     private String number;
-
-    @NotNull
-    private DocumentType type;
 
 }

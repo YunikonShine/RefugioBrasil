@@ -1,6 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.model.request;
 
-import br.com.yunikonshine.refugiobrasil.model.enumerable.DocumentType;
+import br.com.yunikonshine.refugiobrasil.model.enumerable.Fluency;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +13,12 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocumentRequest {
-
-    @NotBlank
-    private String number;
+public class LanguageRequest {
 
     @NotNull
-    private DocumentType type;
+    private Fluency fluency;
+
+    @NotBlank
+    private String name;
 
 }

@@ -1,6 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.model.request;
 
-import br.com.yunikonshine.refugiobrasil.model.enumerable.DocumentType;
+import br.com.yunikonshine.refugiobrasil.model.enumerable.HomeType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +13,24 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocumentRequest {
+public class AddressRequest {
 
     @NotBlank
-    private String number;
+    private String street;
 
     @NotNull
-    private DocumentType type;
+    private Integer number;
+
+    @NotBlank
+    private String complement;
+
+    @NotBlank
+    private String cep;
+
+    @NotNull
+    private Integer city;
+
+    @NotNull
+    private HomeType homeType;
 
 }
