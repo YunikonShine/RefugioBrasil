@@ -20,7 +20,7 @@ public class Address {
 	public static final String TABLE_NAME = "addresses";
 
 	@DynamoDBHashKey
-	private Long id;
+	private String id;
 
 	@DynamoDBAttribute(attributeName = "refugee_id")
 	private String refugeeId;

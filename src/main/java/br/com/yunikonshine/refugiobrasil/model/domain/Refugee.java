@@ -27,7 +27,7 @@ public class Refugee {
 	public static final String TABLE_NAME = "refugees";
 
 	@DynamoDBHashKey
-	private Long id;
+	private String id;
 
 	@DynamoDBTypeConverted(converter = LocalDateConverter.class)
 	private LocalDateTime creationDate;
