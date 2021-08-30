@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
@@ -47,6 +48,15 @@ public class GenericRepository {
 
     public List<Map<String, AttributeValue>> findAll(String tableName) {
         return dynamoDB.scan(new ScanRequest().withTableName(tableName)).getItems();
+    }
+
+    public Optional<Map<String, AttributeValue>> findById(Object id, String tableName) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("id", id);
+
+        String query = "#id = :id";
+
+        return getItems(queryMap, query, tableName).stream().findFirst();
     }
 
 }

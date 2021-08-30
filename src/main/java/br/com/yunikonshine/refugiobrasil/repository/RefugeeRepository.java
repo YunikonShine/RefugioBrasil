@@ -5,13 +5,10 @@ import br.com.yunikonshine.refugiobrasil.exception.RefugeeNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.domain.Refugee;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -53,22 +50,16 @@ public class RefugeeRepository {
 
     private void fillCountries(Refugee refugee) throws CepNotFoundException {
         refugee.setOriginCountry(
-                countryRepository.getById(refugee.getOriginCountryId()));
+                countryRepository.findById(refugee.getOriginCountryId()));
         refugee.setBirthCountry(
-                countryRepository.getById(refugee.getBirthCountryId()));
+                countryRepository.findById(refugee.getBirthCountryId()));
     }
 
     public Refugee findById(String id) throws RefugeeNotFoundException, CepNotFoundException {
-        Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("id", id);
-
-        String query = "#id = :id";
-
-        List<Map<String, AttributeValue>> items = genericRepository.getItems(queryMap, query, Refugee.TABLE_NAME);
-
-        Map<String, AttributeValue> item = items.stream().findFirst().orElseThrow(() -> new RefugeeNotFoundException());
-
-        Refugee refugee = dynamoDBMapper.marshallIntoObject(Refugee.class, item);
+        Refugee refugee = dynamoDBMapper.marshallIntoObject(
+                Refugee.class,
+                genericRepository.findById(id, Refugee.TABLE_NAME)
+                        .orElseThrow(() -> new RefugeeNotFoundException()));
 
         fillCountries(refugee);
 

@@ -63,8 +63,8 @@ public class HandlerController {
     @ExceptionHandler(DocumentAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleDocumentAlreadyExistsException(DocumentAlreadyExistsException e) {
         log.error("Document already exists ", e);
-        ExceptionResponse err = new ExceptionResponse(HttpStatus.BAD_REQUEST, "Document already exists", REFUGIO_BRASIL);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        ExceptionResponse err = new ExceptionResponse(HttpStatus.FOUND, "Document already exists", REFUGIO_BRASIL);
+        return ResponseEntity.status(HttpStatus.FOUND).body(err);
     }
 
     @ExceptionHandler(DocumentNotValidException.class)
