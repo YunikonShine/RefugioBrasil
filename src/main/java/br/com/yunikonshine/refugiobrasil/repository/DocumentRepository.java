@@ -3,6 +3,7 @@ package br.com.yunikonshine.refugiobrasil.repository;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.model.domain.Document;
 import br.com.yunikonshine.refugiobrasil.model.request.DocumentRequest;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,10 +11,13 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
 public class DocumentRepository {
+
+    private final DynamoDBMapper dynamoDBMapper;
 
     private final GenericRepository genericRepository;
 
@@ -29,5 +33,11 @@ public class DocumentRepository {
         if(!items.isEmpty()) {
             throw new DocumentAlreadyExistsException();
         }
+    }
+
+    public List<Document> getByRefugeeId(String refugeeId) {
+        return genericRepository.findByRefugeeId(refugeeId, Document.TABLE_NAME).stream()
+                .map(i -> dynamoDBMapper.marshallIntoObject(Document.class, i))
+                .collect(Collectors.toList());
     }
 }

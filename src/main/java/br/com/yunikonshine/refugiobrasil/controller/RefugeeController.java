@@ -4,6 +4,7 @@ import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.RefugeeNotFoundException;
+import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
 import br.com.yunikonshine.refugiobrasil.model.response.RefugeeResponse;
 import br.com.yunikonshine.refugiobrasil.model.response.RefugeeSimpleResponse;
@@ -35,7 +36,7 @@ public class RefugeeController {
     }
 
     @GetMapping("/{refugeeId}")
-    public RefugeeResponse findById(String id) throws RefugeeNotFoundException, CepNotFoundException {
+    public RefugeeResponse findById(String id) throws GenericNotFoundException {
         return refugeeService.findById(id);
     }
 

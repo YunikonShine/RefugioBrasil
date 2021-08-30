@@ -59,4 +59,13 @@ public class GenericRepository {
         return getItems(queryMap, query, tableName).stream().findFirst();
     }
 
+    public Optional<Map<String, AttributeValue>> findByRefugeeId(String refugeeId, String tableName) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("refugee_id", refugeeId);
+
+        String query = "#refugee_id = :refugee_id";
+
+        return getItems(queryMap, query, tableName).stream().findFirst();
+    }
+
 }

@@ -1,8 +1,15 @@
 package br.com.yunikonshine.refugiobrasil.repository;
 
+import br.com.yunikonshine.refugiobrasil.exception.AddressNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
+import br.com.yunikonshine.refugiobrasil.exception.NecessityNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.RefugeeNotFoundException;
+import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
+import br.com.yunikonshine.refugiobrasil.model.domain.Address;
+import br.com.yunikonshine.refugiobrasil.model.domain.Document;
+import br.com.yunikonshine.refugiobrasil.model.domain.Necessity;
 import br.com.yunikonshine.refugiobrasil.model.domain.Refugee;
+import br.com.yunikonshine.refugiobrasil.service.DocumentService;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +29,8 @@ public class RefugeeRepository {
     private final CountryRepository countryRepository;
 
     private final GenericRepository genericRepository;
+
+    private final DocumentRepository documentRepository;
 
     public void save(Refugee refugee) {
         dynamoDBMapper.save(refugee.getNecessity());
@@ -55,20 +64,35 @@ public class RefugeeRepository {
                 countryRepository.findById(refugee.getBirthCountryId()));
     }
 
-    private void fillAllSingleData(Refugee refugee) throws CepNotFoundException {
+    private void fillAllSingleData(Refugee refugee) throws GenericNotFoundException {
         fillCountries(refugee);
 
+        Necessity necessity = dynamoDBMapper.marshallIntoObject(
+                Necessity.class,
+                genericRepository.findById(refugee.getNecessityId(), Necessity.TABLE_NAME)
+                        .orElseThrow(() -> new NecessityNotFoundException()));
+        refugee.setNecessity(necessity);
+
+        Address address = dynamoDBMapper.marshallIntoObject(
+                Address.class,
+                genericRepository.findById(refugee.getAddressId(), Address.TABLE_NAME)
+                        .orElseThrow(() -> new AddressNotFoundException()));
+        refugee.setAddress(address);
     }
 
-    public Refugee findById(String id) throws RefugeeNotFoundException, CepNotFoundException {
+    private void fillAllListData(Refugee refugee) throws GenericNotFoundException {
+        String refugeeId = refugee.getId();
+        refugee.setDocuments(documentRepository.getByRefugeeId(refugeeId));
+    }
+
+    public Refugee findById(String id) throws GenericNotFoundException {
         Refugee refugee = dynamoDBMapper.marshallIntoObject(
                 Refugee.class,
                 genericRepository.findById(id, Refugee.TABLE_NAME)
                         .orElseThrow(() -> new RefugeeNotFoundException()));
 
-        fillCountries(refugee);
-
-        //TODO fill all data
+        fillAllSingleData(refugee);
+        fillAllListData(refugee);
 
         return refugee;
     }
