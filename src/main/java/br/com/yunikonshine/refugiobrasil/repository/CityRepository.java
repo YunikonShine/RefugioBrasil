@@ -2,11 +2,8 @@ package br.com.yunikonshine.refugiobrasil.repository;
 
 import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.domain.City;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ScanRequest;
-import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -21,26 +18,19 @@ public class CityRepository {
 
     private final StateRepository stateRepository;
 
-    private final AmazonDynamoDB dynamoDB;
+    private final GenericRepository genericRepository;
 
     private final DynamoDBMapper dynamoDBMapper;
 
     public City findByName(String name) throws CepNotFoundException {
-        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
-        expressionAttributeValues.put(":n", new AttributeValue().withS(name));
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("name", name);
 
-        Map<String, String> expressionAttributeKeys = new HashMap<>();
-        expressionAttributeKeys.put("#n", "name");
+        String query = "#name = :name";
 
-        ScanRequest scanRequest = new ScanRequest()
-                .withTableName(City.TABLE_NAME)
-                .withFilterExpression("#n = :n")
-                .withExpressionAttributeValues(expressionAttributeValues)
-                .withExpressionAttributeNames(expressionAttributeKeys);
+        List<Map<String, AttributeValue>> items = genericRepository.getItems(queryMap, query, City.TABLE_NAME);
 
-        ScanResult result = dynamoDB.scan(scanRequest);
-
-        Map<String, AttributeValue> item = result.getItems()
+        Map<String, AttributeValue> item = items
                 .stream().findFirst()
                 .orElseThrow(() -> new CepNotFoundException());
 
@@ -50,22 +40,15 @@ public class CityRepository {
         return city;
     }
 
-    public List<City> findByState(String stateId) {
-        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
-        expressionAttributeValues.put(":state", new AttributeValue().withN(stateId));
+    public List<City> findByState(Long stateId) {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("state_id", stateId);
 
-        Map<String, String> expressionAttributeKeys = new HashMap<>();
-        expressionAttributeKeys.put("#state", "state_id");
+        String query = "#state_id = :state_id";
 
-        ScanRequest scanRequest = new ScanRequest()
-                .withTableName(City.TABLE_NAME)
-                .withFilterExpression("#state = :state")
-                .withExpressionAttributeValues(expressionAttributeValues)
-                .withExpressionAttributeNames(expressionAttributeKeys);
+        List<Map<String, AttributeValue>> items = genericRepository.getItems(queryMap, query, City.TABLE_NAME);
 
-        ScanResult result = dynamoDB.scan(scanRequest);
-
-        return result.getItems().stream()
+        return items.stream()
                 .map(i -> dynamoDBMapper.marshallIntoObject(City.class, i))
                 .collect(Collectors.toList());
     }

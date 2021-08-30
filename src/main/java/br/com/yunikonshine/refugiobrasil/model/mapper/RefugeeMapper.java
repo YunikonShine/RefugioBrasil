@@ -2,6 +2,7 @@ package br.com.yunikonshine.refugiobrasil.model.mapper;
 
 import br.com.yunikonshine.refugiobrasil.model.domain.Refugee;
 import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
+import br.com.yunikonshine.refugiobrasil.model.response.RefugeeSimpleResponse;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -25,6 +26,10 @@ public interface RefugeeMapper {
     @Mapping(source = "originCountry", target = "originCountryId")
     @Mapping(target = "originCountry", ignore = true)
     Refugee fromRequest(RefugeeRequest refugeeRequest);
+
+    @Mapping(target = "originCountry", source = "originCountry.name")
+    @Mapping(target = "birthCountry", source = "birthCountry.name")
+    RefugeeSimpleResponse toRefugeeSimpleResponse(Refugee refugee);
 
     @AfterMapping
     @Named("setAdditionalData")

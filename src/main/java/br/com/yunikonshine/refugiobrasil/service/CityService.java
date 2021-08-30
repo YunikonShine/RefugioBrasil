@@ -23,7 +23,7 @@ public class CityService {
         return cityRepository.findByName(name);
     }
 
-    public List<CityResponse> findByState(String stateId) {
+    public List<CityResponse> findByState(Long stateId) {
         return cityRepository.findByState(stateId).stream()
                 .map(cityMapper::toResponse).collect(Collectors.toList());
     }

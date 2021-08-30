@@ -18,7 +18,7 @@ public class State {
     public static final String TABLE_NAME = "states";
 
     @DynamoDBHashKey
-    private String id;
+    private Long id;
 
     @DynamoDBRangeKey
     private String name;
