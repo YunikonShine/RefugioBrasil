@@ -1,6 +1,8 @@
 package br.com.yunikonshine.refugiobrasil.exception;
 
-public class RefugeeNotFoundException extends Exception {
+import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
+
+public class RefugeeNotFoundException extends GenericNotFoundException {
 
     public RefugeeNotFoundException() {
         super("Refugee not found");

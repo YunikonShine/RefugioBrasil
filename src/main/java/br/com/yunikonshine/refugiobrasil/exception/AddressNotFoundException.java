@@ -2,10 +2,10 @@ package br.com.yunikonshine.refugiobrasil.exception;
 
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 
-public class CepNotFoundException extends GenericNotFoundException {
+public class AddressNotFoundException extends GenericNotFoundException {
 
-    public CepNotFoundException() {
-        super("CEP not found");
+    public AddressNotFoundException() {
+        super("Address not found");
     }
 
 }

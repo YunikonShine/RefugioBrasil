@@ -1,9 +1,9 @@
 package br.com.yunikonshine.refugiobrasil.controller.handler;
 
-import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.FeignServerInternalServerError;
+import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -53,10 +53,10 @@ public class HandlerController {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(err);
     }
 
-    @ExceptionHandler(CepNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleCepNotFoundException(CepNotFoundException e) {
-        log.error("CEP not found ", e);
-        ExceptionResponse err = new ExceptionResponse(HttpStatus.NOT_FOUND, "CEP not found", REFUGIO_BRASIL);
+    @ExceptionHandler(GenericNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleGenericNotFoundException(GenericNotFoundException e) {
+        log.error(e.getMessage(), e);
+        ExceptionResponse err = new ExceptionResponse(HttpStatus.NOT_FOUND, e.getMessage(), REFUGIO_BRASIL);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 

@@ -55,6 +55,11 @@ public class RefugeeRepository {
                 countryRepository.findById(refugee.getBirthCountryId()));
     }
 
+    private void fillAllSingleData(Refugee refugee) throws CepNotFoundException {
+        fillCountries(refugee);
+
+    }
+
     public Refugee findById(String id) throws RefugeeNotFoundException, CepNotFoundException {
         Refugee refugee = dynamoDBMapper.marshallIntoObject(
                 Refugee.class,
