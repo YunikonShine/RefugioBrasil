@@ -3,9 +3,11 @@ package br.com.yunikonshine.refugiobrasil.service;
 import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
+import br.com.yunikonshine.refugiobrasil.exception.RefugeeNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.mapper.RefugeeMapper;
 import br.com.yunikonshine.refugiobrasil.model.request.DocumentRequest;
 import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
+import br.com.yunikonshine.refugiobrasil.model.response.RefugeeResponse;
 import br.com.yunikonshine.refugiobrasil.model.response.RefugeeSimpleResponse;
 import br.com.yunikonshine.refugiobrasil.repository.RefugeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +42,9 @@ public class RefugeeService {
     public List<RefugeeSimpleResponse> getAllRefugees() throws CepNotFoundException {
         return refugeeRepository.listRefugees().stream()
                 .map(refugeeMapper::toRefugeeSimpleResponse).collect(Collectors.toList());
+    }
+
+    public RefugeeResponse findById(String id) throws RefugeeNotFoundException, CepNotFoundException  {
+        return refugeeMapper.toRefugeeResponse(refugeeRepository.findById(id));
     }
 }

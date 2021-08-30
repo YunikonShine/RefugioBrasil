@@ -3,7 +3,9 @@ package br.com.yunikonshine.refugiobrasil.controller;
 import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
+import br.com.yunikonshine.refugiobrasil.exception.RefugeeNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
+import br.com.yunikonshine.refugiobrasil.model.response.RefugeeResponse;
 import br.com.yunikonshine.refugiobrasil.model.response.RefugeeSimpleResponse;
 import br.com.yunikonshine.refugiobrasil.service.RefugeeService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,11 @@ public class RefugeeController {
     public ResponseEntity saveRefugee(@RequestBody @Valid RefugeeRequest refugeeRequest) throws DocumentAlreadyExistsException, DocumentNotValidException, CepNotFoundException {
         refugeeService.saveRefugee(refugeeRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{refugeeId}")
+    public RefugeeResponse findById(String id) throws RefugeeNotFoundException, CepNotFoundException {
+        return refugeeService.findById(id);
     }
 
     @GetMapping
