@@ -1,6 +1,7 @@
 package br.com.yunikonshine.refugiobrasil.model.domain;
 
 import br.com.yunikonshine.refugiobrasil.model.converter.LocalDateConverter;
+import br.com.yunikonshine.refugiobrasil.model.converter.LocalDateTimeConverter;
 import br.com.yunikonshine.refugiobrasil.model.enumerable.Gender;
 import br.com.yunikonshine.refugiobrasil.model.enumerable.MaritalStatus;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
@@ -30,7 +31,7 @@ public class Refugee {
 	@DynamoDBHashKey
 	private String id;
 
-	@DynamoDBTypeConverted(converter = LocalDateConverter.class)
+	@DynamoDBTypeConverted(converter = LocalDateTimeConverter.class)
 	private LocalDateTime creationDate;
 
 	private String name;

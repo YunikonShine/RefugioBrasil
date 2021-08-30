@@ -1,20 +1,27 @@
 package br.com.yunikonshine.refugiobrasil.repository;
 
 import br.com.yunikonshine.refugiobrasil.model.domain.Refugee;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class RefugeeRepository {
 
-    private final ObjectMapper objectMapper;
+    private final DynamoDBMapper dynamoDBMapper;
 
-    @SneakyThrows
     public void save(Refugee refugee) {
-        System.out.println(objectMapper.writeValueAsString(refugee));
+        dynamoDBMapper.save(refugee.getNecessity());
+        dynamoDBMapper.save(refugee.getAddress());
+
+        refugee.getDocuments().forEach(dynamoDBMapper::save);
+        refugee.getProfessions().forEach(dynamoDBMapper::save);
+        refugee.getLanguages().forEach(dynamoDBMapper::save);
+        refugee.getFormations().forEach(dynamoDBMapper::save);
+        refugee.getPhones().forEach(dynamoDBMapper::save);
+
+        dynamoDBMapper.save(refugee);
     }
 
 }

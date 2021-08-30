@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 @Getter
 @Setter
@@ -20,6 +21,7 @@ public class AddressRequest {
     private String street;
 
     @NotNull
+    @Positive
     private Integer number;
 
     @NotBlank
@@ -30,6 +32,7 @@ public class AddressRequest {
     private String cep;
 
     @NotNull
+    @Positive
     private Integer city;
 
     @NotNull
