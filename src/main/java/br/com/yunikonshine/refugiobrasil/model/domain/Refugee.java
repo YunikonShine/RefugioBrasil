@@ -9,7 +9,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConvertedEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,25 +53,21 @@ public class Refugee {
 
 	private String necessityId;
 
-	@JsonIgnore
 	@DynamoDBIgnore
 	private Necessity necessity;
 
 	private Long birthCountryId;
 
-	@JsonIgnore
 	@DynamoDBIgnore
 	private Country birthCountry;
 
 	private Long originCountryId;
 
-	@JsonIgnore
 	@DynamoDBIgnore
 	private Country originCountry;
 
 	private String addressId;
 
-	@JsonIgnore
 	@DynamoDBIgnore
 	private Address address;
 
