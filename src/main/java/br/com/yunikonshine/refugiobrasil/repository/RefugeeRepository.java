@@ -6,10 +6,8 @@ import br.com.yunikonshine.refugiobrasil.exception.NecessityNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.RefugeeNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.domain.Address;
-import br.com.yunikonshine.refugiobrasil.model.domain.Document;
 import br.com.yunikonshine.refugiobrasil.model.domain.Necessity;
 import br.com.yunikonshine.refugiobrasil.model.domain.Refugee;
-import br.com.yunikonshine.refugiobrasil.service.DocumentService;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +29,14 @@ public class RefugeeRepository {
     private final GenericRepository genericRepository;
 
     private final DocumentRepository documentRepository;
+
+    private final ProfessionRepository professionRepository;
+
+    private final LanguageRepository languageRepository;
+
+    private final FormationRepository formationRepository;
+
+    private final PhonesRepository phonesRepository;
 
     public void save(Refugee refugee) {
         dynamoDBMapper.save(refugee.getNecessity());
@@ -83,6 +89,10 @@ public class RefugeeRepository {
     private void fillAllListData(Refugee refugee) throws GenericNotFoundException {
         String refugeeId = refugee.getId();
         refugee.setDocuments(documentRepository.getByRefugeeId(refugeeId));
+        refugee.setProfessions(professionRepository.getByRefugeeId(refugeeId));
+        refugee.setLanguages(languageRepository.getByRefugeeId(refugeeId));
+        refugee.setFormations(formationRepository.getByRefugeeId(refugeeId));
+        refugee.setPhones(phonesRepository.getByRefugeeId(refugeeId));
     }
 
     public Refugee findById(String id) throws GenericNotFoundException {
