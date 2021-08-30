@@ -11,8 +11,6 @@ spring:
     url: jdbc:mysql://localhost:3306/ysrefugiobrasil
     username: root
     password: root
-  profiles:
-    active: localstack
 
 feign:
   url:
@@ -25,5 +23,5 @@ api:
   version: 1.0.0
 
 aws:
-  accessKey:
-  secretKey:
+  accessKey: ${AWS_ACCESS_KEY}
+  secretKey: ${AWS_SECRET_KEY}
