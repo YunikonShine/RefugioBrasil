@@ -3,7 +3,6 @@ package br.com.yunikonshine.refugiobrasil.service;
 import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
-import br.com.yunikonshine.refugiobrasil.exception.RefugeeNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.mapper.RefugeeMapper;
 import br.com.yunikonshine.refugiobrasil.model.request.DocumentRequest;

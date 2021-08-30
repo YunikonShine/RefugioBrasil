@@ -3,7 +3,6 @@ package br.com.yunikonshine.refugiobrasil.controller;
 import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
-import br.com.yunikonshine.refugiobrasil.exception.RefugeeNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
 import br.com.yunikonshine.refugiobrasil.model.response.RefugeeResponse;
@@ -13,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +36,7 @@ public class RefugeeController {
     }
 
     @GetMapping("/{refugeeId}")
-    public RefugeeResponse findById(String id) throws GenericNotFoundException {
+    public RefugeeResponse findById(@PathVariable String id) throws GenericNotFoundException {
         return refugeeService.findById(id);
     }
 

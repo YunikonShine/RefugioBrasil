@@ -53,4 +53,15 @@ public class CityRepository {
                 .collect(Collectors.toList());
     }
 
+    public City findById(Integer id) throws CepNotFoundException {
+        City city = dynamoDBMapper.marshallIntoObject(
+                City.class,
+                genericRepository.findById(id, City.TABLE_NAME)
+                        .orElseThrow(() -> new CepNotFoundException()));
+
+        city.setState(stateRepository.findById(city.getStateId()));
+
+        return city;
+    }
+
 }

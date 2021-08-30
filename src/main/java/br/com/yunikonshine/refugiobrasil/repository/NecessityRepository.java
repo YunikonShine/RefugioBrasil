@@ -14,7 +14,7 @@ public class NecessityRepository {
 
     private final GenericRepository genericRepository;
 
-    public Necessity findById(Long id) throws CepNotFoundException {
+    public Necessity findById(String id) throws CepNotFoundException {
         return dynamoDBMapper.marshallIntoObject(
                 Necessity.class,
                 genericRepository.findById(id, Necessity.TABLE_NAME)
