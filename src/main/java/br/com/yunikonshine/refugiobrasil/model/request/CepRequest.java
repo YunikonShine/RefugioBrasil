@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class CepRequest {
 
-    @Pattern(regexp="[\\d]{8}")
+    @Pattern(regexp = "[\\d]{8}")
     private String cep;
 
 }

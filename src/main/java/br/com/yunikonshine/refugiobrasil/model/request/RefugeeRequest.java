@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -46,9 +47,11 @@ public class RefugeeRequest {
     private Boolean institutionCourse;
 
     @NotNull
+    @Positive
     private Long birthCountry;
 
     @NotNull
+    @Positive
     private Long originCountry;
 
     @Valid

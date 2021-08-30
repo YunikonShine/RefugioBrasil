@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotNull;
 public class DocumentRequest {
 
     @NotBlank
+    @Pattern(regexp = "[a-zA-Z0-9]*")
     private String number;
 
     @NotNull

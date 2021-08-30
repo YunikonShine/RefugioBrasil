@@ -1,10 +1,11 @@
 package br.com.yunikonshine.refugiobrasil.model.domain;
 
 import br.com.yunikonshine.refugiobrasil.model.enumerable.HomeType;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConvertedEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,6 @@ public class Address {
 	@DynamoDBHashKey
 	private String id;
 
-	@DynamoDBAttribute(attributeName = "refugee_id")
-	private String refugeeId;
-
 	private String street;
 
 	private Integer number;
@@ -35,9 +33,11 @@ public class Address {
 
 	private Integer cityId;
 
+	@DynamoDBTypeConvertedEnum
+	private HomeType homeType;
+
+	@JsonIgnore
 	@DynamoDBIgnore
 	private City city;
-
-	private HomeType homeType;
 
 }

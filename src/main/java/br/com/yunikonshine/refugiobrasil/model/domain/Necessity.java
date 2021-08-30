@@ -1,7 +1,6 @@
 package br.com.yunikonshine.refugiobrasil.model.domain;
 
 import br.com.yunikonshine.refugiobrasil.model.enumerable.Situation;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConvertedEnum;
@@ -21,9 +20,6 @@ public class Necessity {
 
 	@DynamoDBHashKey
 	private String id;
-
-	@DynamoDBAttribute(attributeName = "refugee_id")
-	private String refugeeId;
 
 	private String description;
 

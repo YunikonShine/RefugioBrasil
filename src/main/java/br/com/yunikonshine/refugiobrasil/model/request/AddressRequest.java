@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -25,6 +26,7 @@ public class AddressRequest {
     private String complement;
 
     @NotBlank
+    @Pattern(regexp = "[\\d]{8}")
     private String cep;
 
     @NotNull

@@ -5,9 +5,12 @@ import br.com.yunikonshine.refugiobrasil.model.request.FormationRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+import java.util.UUID;
+
+@Mapper(componentModel = "spring", imports = {UUID.class})
 public interface FormationMapper {
 
+    @Mapping(target = "id", expression = "java(UUID.randomUUID().toString())")
     @Mapping(source = "country", target = "countryId")
     @Mapping(target = "country", ignore = true)
     Formation fromRequest(FormationRequest formationRequest);
