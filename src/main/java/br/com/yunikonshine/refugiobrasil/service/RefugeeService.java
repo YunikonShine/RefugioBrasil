@@ -6,6 +6,7 @@ import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 import br.com.yunikonshine.refugiobrasil.model.mapper.RefugeeMapper;
 import br.com.yunikonshine.refugiobrasil.model.request.DocumentRequest;
+import br.com.yunikonshine.refugiobrasil.model.request.RefugeeBaseRequest;
 import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
 import br.com.yunikonshine.refugiobrasil.model.response.RefugeeResponse;
 import br.com.yunikonshine.refugiobrasil.model.response.RefugeeSimpleResponse;
@@ -46,5 +47,9 @@ public class RefugeeService {
 
     public RefugeeResponse findById(String id) throws GenericNotFoundException {
         return refugeeMapper.toRefugeeResponse(refugeeRepository.findById(id));
+    }
+
+    public void update(String refugeeId, RefugeeBaseRequest refugeeRequest) throws GenericNotFoundException {
+        refugeeRepository.update(refugeeMapper.fromRequest(refugeeId, refugeeRequest));
     }
 }

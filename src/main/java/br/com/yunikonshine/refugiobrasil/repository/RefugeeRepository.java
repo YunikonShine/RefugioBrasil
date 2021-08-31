@@ -96,4 +96,23 @@ public class RefugeeRepository {
 
         return refugee;
     }
+
+    public void update(Refugee refugee) throws GenericNotFoundException {
+        Refugee complete = dynamoDBMapper.marshallIntoObject(
+                Refugee.class,
+                genericRepository.findById(refugee.getId(), Refugee.TABLE_NAME)
+                        .orElseThrow(() -> new RefugeeNotFoundException()));
+
+        refugee.getAddress().setId(complete.getAddressId());
+        refugee.setAddressId(complete.getAddressId());
+        refugee.getNecessity().setId(complete.getNecessityId());
+        refugee.setNecessityId(complete.getNecessityId());
+
+        refugee.setCreationDate(complete.getCreationDate());
+
+        dynamoDBMapper.save(refugee.getAddress());
+        dynamoDBMapper.save(refugee.getNecessity());
+        dynamoDBMapper.save(refugee);
+    }
+
 }
