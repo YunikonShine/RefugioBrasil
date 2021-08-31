@@ -36,8 +36,8 @@ public class RefugeeController {
     }
 
     @GetMapping("/{refugeeId}")
-    public RefugeeResponse findById(@PathVariable String id) throws GenericNotFoundException {
-        return refugeeService.findById(id);
+    public RefugeeResponse findById(@PathVariable String refugeeId) throws GenericNotFoundException {
+        return refugeeService.findById(refugeeId);
     }
 
     @GetMapping
