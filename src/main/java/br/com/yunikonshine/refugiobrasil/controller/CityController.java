@@ -1,5 +1,7 @@
 package br.com.yunikonshine.refugiobrasil.controller;
 
+import br.com.yunikonshine.refugiobrasil.model.domain.City;
+import br.com.yunikonshine.refugiobrasil.model.mapper.CityMapper;
 import br.com.yunikonshine.refugiobrasil.model.request.StateRequest;
 import br.com.yunikonshine.refugiobrasil.model.response.CityResponse;
 import br.com.yunikonshine.refugiobrasil.service.CityService;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Validated
 @RestController
@@ -21,9 +24,12 @@ public class CityController {
 
     private final CityService cityService;
 
+    private final CityMapper cityMapper;
+
     @GetMapping("/{state}")
     public List<CityResponse> getCitiesByState(@PathVariable @Valid StateRequest state) {
-        return cityService.findByState(Long.parseLong(state.getId()));
+        List<City> cities = cityService.findByState(Long.parseLong(state.getId()));
+        return cities.stream().map(cityMapper::toResponse).collect(Collectors.toList());
     }
 
 }

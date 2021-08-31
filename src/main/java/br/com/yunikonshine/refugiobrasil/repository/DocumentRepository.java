@@ -4,8 +4,6 @@ import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsExceptio
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.NonBelongDocumentException;
 import br.com.yunikonshine.refugiobrasil.model.domain.Document;
-import br.com.yunikonshine.refugiobrasil.model.request.DocumentRefugeeRequest;
-import br.com.yunikonshine.refugiobrasil.model.request.DocumentRequest;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,7 @@ public class DocumentRepository {
 
     private final GenericRepository genericRepository;
 
-    public void validDocument(DocumentRequest document) throws DocumentAlreadyExistsException {
+    public void validDocument(Document document) throws DocumentAlreadyExistsException {
         if(!getDocumentByRequest(document).isEmpty()) {
             throw new DocumentAlreadyExistsException();
         }
@@ -41,7 +39,7 @@ public class DocumentRepository {
         }
     }
 
-    public void validDocumentFromRefugee(DocumentRequest document, String refugeeId) throws DocumentAlreadyExistsException {
+    public void validDocumentFromRefugee(Document document, String refugeeId) throws DocumentAlreadyExistsException {
         List<Map<String, AttributeValue>> items = getDocumentByRequest(document);
 
         List<Document> documents = items.stream()
@@ -57,7 +55,7 @@ public class DocumentRepository {
         }
     }
 
-    private List<Map<String, AttributeValue>> getDocumentByRequest(DocumentRequest document) {
+    private List<Map<String, AttributeValue>> getDocumentByRequest(Document document) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("number", document.getNumber());
         queryMap.put("type", document.getType().toString());

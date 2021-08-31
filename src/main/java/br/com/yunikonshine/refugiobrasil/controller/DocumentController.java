@@ -4,6 +4,7 @@ import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsExceptio
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.NonBelongDocumentException;
+import br.com.yunikonshine.refugiobrasil.model.mapper.DocumentMapper;
 import br.com.yunikonshine.refugiobrasil.model.request.DocumentRefugeeRequest;
 import br.com.yunikonshine.refugiobrasil.model.request.DocumentRequest;
 import br.com.yunikonshine.refugiobrasil.service.DocumentService;
@@ -28,15 +29,17 @@ public class DocumentController {
 
     private final DocumentService documentService;
 
+    private final DocumentMapper documentMapper;
+
     @PostMapping("/valid")
     public ResponseEntity validDocument(@RequestBody @Valid DocumentRequest documentRequest) throws DocumentAlreadyExistsException, DocumentNotValidException {
-        documentService.validDocument(documentRequest);
+        documentService.validDocument(documentMapper.toEntity(documentRequest));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{documentId}/{refugeeId}")
     public ResponseEntity updateDocument(@PathVariable String documentId, @PathVariable String refugeeId, @RequestBody DocumentRequest documentRequest) throws DocumentAlreadyExistsException, DocumentNotValidException, NonBelongDocumentException, DocumentNotFoundException {
-        documentService.update(documentId, refugeeId, documentRequest);
+        documentService.update(documentMapper.fromRequest(documentRequest, documentId, refugeeId));
         return ResponseEntity.ok().build();
     }
 
@@ -48,7 +51,7 @@ public class DocumentController {
 
     @PostMapping
     public ResponseEntity saveDocument(@RequestBody @Valid DocumentRefugeeRequest documentRequest) throws DocumentAlreadyExistsException, DocumentNotValidException {
-        documentService.save(documentRequest);
+        documentService.save(documentMapper.toEntity(documentRequest));
         return ResponseEntity.ok().build();
     }
 

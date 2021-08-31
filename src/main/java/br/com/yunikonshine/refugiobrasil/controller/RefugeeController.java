@@ -4,6 +4,8 @@ import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
+import br.com.yunikonshine.refugiobrasil.model.domain.Refugee;
+import br.com.yunikonshine.refugiobrasil.model.mapper.RefugeeMapper;
 import br.com.yunikonshine.refugiobrasil.model.request.RefugeeBaseRequest;
 import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
 import br.com.yunikonshine.refugiobrasil.model.response.RefugeeResponse;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Validated
 @RestController
@@ -29,27 +32,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RefugeeController {
 
+    private final RefugeeMapper refugeeMapper;
+
     private final RefugeeService refugeeService;
 
     @PostMapping
     public ResponseEntity saveRefugee(@RequestBody @Valid RefugeeRequest refugeeRequest) throws DocumentAlreadyExistsException, DocumentNotValidException, CepNotFoundException {
-        refugeeService.saveRefugee(refugeeRequest);
+        refugeeService.saveRefugee(refugeeMapper.fromRequest(refugeeRequest));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{refugeeId}")
     public RefugeeResponse findById(@PathVariable String refugeeId) throws GenericNotFoundException {
-        return refugeeService.findById(refugeeId);
+        Refugee refugee = refugeeService.findById(refugeeId);
+        return refugeeMapper.toRefugeeResponse(refugee);
     }
 
     @GetMapping
     public List<RefugeeSimpleResponse> getAllRefugees() throws CepNotFoundException {
-        return refugeeService.getAllRefugees();
+        List<Refugee> refugees = refugeeService.getAllRefugees();
+        return refugees.stream().map(refugeeMapper::toRefugeeSimpleResponse).collect(Collectors.toList());
     }
 
     @PutMapping("/{refugeeId}")
     public ResponseEntity updateRefugee(@PathVariable String refugeeId, @RequestBody @Valid RefugeeBaseRequest refugeeRequest) throws GenericNotFoundException {
-        refugeeService.update(refugeeId, refugeeRequest);
+        refugeeService.update(refugeeMapper.fromRequest(refugeeId, refugeeRequest));
         return ResponseEntity.ok().build();
     }
 

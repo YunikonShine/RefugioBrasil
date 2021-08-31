@@ -4,18 +4,15 @@ import br.com.yunikonshine.refugiobrasil.exception.CepNotFoundException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
+import br.com.yunikonshine.refugiobrasil.model.domain.Document;
+import br.com.yunikonshine.refugiobrasil.model.domain.Refugee;
+import br.com.yunikonshine.refugiobrasil.model.mapper.DocumentMapper;
 import br.com.yunikonshine.refugiobrasil.model.mapper.RefugeeMapper;
-import br.com.yunikonshine.refugiobrasil.model.request.DocumentRequest;
-import br.com.yunikonshine.refugiobrasil.model.request.RefugeeBaseRequest;
-import br.com.yunikonshine.refugiobrasil.model.request.RefugeeRequest;
-import br.com.yunikonshine.refugiobrasil.model.response.RefugeeResponse;
-import br.com.yunikonshine.refugiobrasil.model.response.RefugeeSimpleResponse;
 import br.com.yunikonshine.refugiobrasil.repository.RefugeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,27 +26,28 @@ public class RefugeeService {
 
     private final RefugeeMapper refugeeMapper;
 
-    public void saveRefugee(RefugeeRequest refugeeRequest) throws DocumentAlreadyExistsException, DocumentNotValidException, CepNotFoundException {
-        for (DocumentRequest document : refugeeRequest.getDocuments()) {
+    private final DocumentMapper documentMapper;
+
+    public void saveRefugee(Refugee refugee) throws DocumentAlreadyExistsException, DocumentNotValidException, CepNotFoundException {
+        for (Document document : refugee.getDocuments()) {
             documentService.validDocument(document);
         }
 
-        cepService.getDataByCep(refugeeRequest.getAddress().getCep());
+        cepService.getDataByCep(refugee.getAddress().getCep());
 
-        refugeeRepository.save(refugeeMapper.fromRequest(refugeeRequest));
+        refugeeRepository.save(refugee);
 
     }
 
-    public List<RefugeeSimpleResponse> getAllRefugees() throws CepNotFoundException {
-        return refugeeRepository.listRefugees().stream()
-                .map(refugeeMapper::toRefugeeSimpleResponse).collect(Collectors.toList());
+    public List<Refugee> getAllRefugees() throws CepNotFoundException {
+        return refugeeRepository.listRefugees();
     }
 
-    public RefugeeResponse findById(String id) throws GenericNotFoundException {
-        return refugeeMapper.toRefugeeResponse(refugeeRepository.findById(id));
+    public Refugee findById(String id) throws GenericNotFoundException {
+        return refugeeRepository.findById(id);
     }
 
-    public void update(String refugeeId, RefugeeBaseRequest refugeeRequest) throws GenericNotFoundException {
-        refugeeRepository.update(refugeeMapper.fromRequest(refugeeId, refugeeRequest));
+    public void update(Refugee refugee) throws GenericNotFoundException {
+        refugeeRepository.update(refugee);
     }
 }
