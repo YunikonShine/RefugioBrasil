@@ -3,6 +3,7 @@ package br.com.yunikonshine.refugiobrasil.controller.handler;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsException;
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.FeignServerInternalServerError;
+import br.com.yunikonshine.refugiobrasil.exception.NonBelongDocumentException;
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +66,13 @@ public class HandlerController {
         log.error("Document already exists ", e);
         ExceptionResponse err = new ExceptionResponse(HttpStatus.FOUND, "Document already exists", REFUGIO_BRASIL);
         return ResponseEntity.status(HttpStatus.FOUND).body(err);
+    }
+
+    @ExceptionHandler(NonBelongDocumentException.class)
+    public ResponseEntity<ExceptionResponse> handleNonBelongDocumentException(NonBelongDocumentException e) {
+        log.error("Document not belonging to the refugee ", e);
+        ExceptionResponse err = new ExceptionResponse(HttpStatus.UNAUTHORIZED, "Document not belonging to the refugee", REFUGIO_BRASIL);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
     }
 
     @ExceptionHandler(DocumentNotValidException.class)
