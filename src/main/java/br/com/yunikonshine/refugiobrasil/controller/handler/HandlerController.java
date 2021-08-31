@@ -4,6 +4,7 @@ import br.com.yunikonshine.refugiobrasil.exception.DocumentAlreadyExistsExceptio
 import br.com.yunikonshine.refugiobrasil.exception.DocumentNotValidException;
 import br.com.yunikonshine.refugiobrasil.exception.FeignServerInternalServerError;
 import br.com.yunikonshine.refugiobrasil.exception.NonBelongDocumentException;
+import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNonBelongException;
 import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,10 +69,10 @@ public class HandlerController {
         return ResponseEntity.status(HttpStatus.FOUND).body(err);
     }
 
-    @ExceptionHandler(NonBelongDocumentException.class)
-    public ResponseEntity<ExceptionResponse> handleNonBelongDocumentException(NonBelongDocumentException e) {
-        log.error("Document not belonging to the refugee ", e);
-        ExceptionResponse err = new ExceptionResponse(HttpStatus.UNAUTHORIZED, "Document not belonging to the refugee", REFUGIO_BRASIL);
+    @ExceptionHandler(GenericNonBelongException.class)
+    public ResponseEntity<ExceptionResponse> handleGenericNonBelongException(GenericNonBelongException e) {
+        log.error(e.getMessage(), e);
+        ExceptionResponse err = new ExceptionResponse(HttpStatus.UNAUTHORIZED, e.getMessage(), REFUGIO_BRASIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
     }
 

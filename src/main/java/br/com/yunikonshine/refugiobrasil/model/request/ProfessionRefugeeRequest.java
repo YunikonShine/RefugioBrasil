@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocumentRefugeeRequest extends DocumentRequest {
+public class ProfessionRefugeeRequest extends ProfessionRequest {
 
     @NotBlank
     private String refugeeId;

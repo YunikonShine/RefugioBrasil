@@ -1,6 +1,8 @@
 package br.com.yunikonshine.refugiobrasil.exception;
 
-public class NonBelongDocumentException extends Exception{
+import br.com.yunikonshine.refugiobrasil.exception.generic.GenericNonBelongException;
+
+public class NonBelongDocumentException extends GenericNonBelongException {
 
     public NonBelongDocumentException() {
         super("Document not belonging to the refugee");
