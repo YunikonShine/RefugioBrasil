@@ -29,7 +29,7 @@ public class HandlerController {
     public ResponseEntity<ExceptionResponse> genericError(Exception e) {
         log.error("Erro interno do servidor ", e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), REFUGIO_BRASIL));
+                new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Server Error", REFUGIO_BRASIL));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
