@@ -32,7 +32,7 @@ public class RefugeeRepository {
 
     private final FormationRepository formationRepository;
 
-    private final PhonesRepository phonesRepository;
+    private final PhoneRepository phoneRepository;
 
     private final NecessityRepository necessityRepository;
 
@@ -82,7 +82,7 @@ public class RefugeeRepository {
         refugee.setProfessions(professionRepository.getByRefugeeId(refugeeId));
         refugee.setLanguages(languageRepository.getByRefugeeId(refugeeId));
         refugee.setFormations(formationRepository.getByRefugeeId(refugeeId));
-        refugee.setPhones(phonesRepository.getByRefugeeId(refugeeId));
+        refugee.setPhones(phoneRepository.getByRefugeeId(refugeeId));
     }
 
     public Refugee findById(String id) throws GenericNotFoundException {
